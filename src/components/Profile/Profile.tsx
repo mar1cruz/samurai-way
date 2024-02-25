@@ -4,7 +4,7 @@ import {MyPosts} from "./MyPosts/MyPosts";
 
 const Profile = () => {
     return (
-        <div className={s.content}>
+        <div>
             <div>
                 <img className={s.contentImage} src="https://get.wallhere.com/photo/1998x1080-px-lake-1331651.jpg"
                      alt=""/>
