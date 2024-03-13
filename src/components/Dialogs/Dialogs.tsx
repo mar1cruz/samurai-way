@@ -34,7 +34,7 @@ type MessageType = {
     message: string
 }
 const Dialogs = () => {
-    const dialogsData: DialogsType[] = [
+    const dialogs: DialogsType[] = [
         {id: 1, name: 'Dimych'},
         {id: 2, name: 'Andrey'},
         {id: 3, name: 'Sveta'},
@@ -43,7 +43,7 @@ const Dialogs = () => {
         {id: 6, name: 'Viktor'},
     ]
 
-    const messagesData: MessageType[] = [
+    const messages: MessageType[] = [
         {id: 1, message: 'Hi'},
         {id: 2, message: 'How are you?'},
         {id: 3, message: 'Hello'},
@@ -56,21 +56,11 @@ const Dialogs = () => {
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
-
-                {dialogsData.map(dialog => {
-                    return (
-                        <DialogItem key={dialog.id} name={dialog.name} id={dialog.id}/>
-                    )
-                })}
-
+                {dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}/>)}
             </div>
 
             <div className={s.messages}>
-                {messagesData.map(message => {
-                    return (
-                        <Message key={message.id} message={message.message}/>
-                    )
-                })}
+                {messages.map(m => <Message key={m.id} message={m.message}/>)}
             </div>
         </div>
     )

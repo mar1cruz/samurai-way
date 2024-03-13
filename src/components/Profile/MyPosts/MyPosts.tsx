@@ -28,13 +28,7 @@ export const MyPosts = () => {
                 </div>
             </div>
             <div className={s.posts}>
-                {
-                    postData.map(p => {
-                        return (
-                            <Post message={p.message} likesCount={p.likesCount}/>
-                        )
-                    })
-                }
+                { postData.map(p => <Post message={p.message} likesCount={p.likesCount}/>) }
             </div>
         </div>
     );
