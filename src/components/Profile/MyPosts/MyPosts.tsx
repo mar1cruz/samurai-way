@@ -8,8 +8,6 @@ type MyPostsPropsType = {
 }
 
 export const MyPosts = (props: MyPostsPropsType) => {
-
-
     return (
         <div className={s.postsBlock}>
             <h3>My posts</h3>

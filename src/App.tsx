@@ -26,13 +26,13 @@ function App(props: AppPropsType) {
 
                 <div className='app-wrapper-content'>
                     <Route path='/dialogs'
-                           render={(routeProps) => (
-                               <Dialogs {...routeProps} dialogsData={props.dialogsData}
+                           render={() => (
+                               <Dialogs dialogsData={props.dialogsData}
                                         messageData={props.messageData}/>
                            )}/>
                     <Route path='/profile'
-                           render={(routerProps) => (
-                               <Profile {...routerProps} postsData={props.postData}/>
+                           render={() => (
+                               <Profile postsData={props.postData}/>
                            )}/>
                     <Route path='/news' component={News}/>
                     <Route path='/music' component={Music}/>
