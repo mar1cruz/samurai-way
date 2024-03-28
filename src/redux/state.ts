@@ -1,4 +1,4 @@
-import {rerenderEntireTree} from "../render";
+import {observe} from "web-vitals/dist/modules/lib/observe";
 
 type DialogsType = {
     id: number
@@ -22,7 +22,8 @@ export type DialogsPageType = {
 }
 
 export type ProfilePageType = {
-    posts: PostType[]
+    posts: PostType[],
+    newPostText: string
 }
 
 export type StatePropsType = {
@@ -30,9 +31,25 @@ export type StatePropsType = {
     dialogsPage: DialogsPageType
 }
 
-export const addPost = (postMessage: string) => {
-    const newPost = {id: 5, message: postMessage, likesCount: 0}
+
+let rerenderEntireTree = (state: StatePropsType) => {
+
+}
+
+export const subscribe = (observer: any) => {
+    rerenderEntireTree = observer
+}
+
+
+export const addPost = () => {
+    const newPost = {id: 5, message: state.profilePage.newPostText, likesCount: 0}
     state.profilePage.posts.unshift(newPost)
+    state.profilePage.newPostText = ''
+    rerenderEntireTree(state)
+}
+
+export const updateNewPostText = (newPostText: string) => {
+    state.profilePage.newPostText = newPostText
     rerenderEntireTree(state)
 }
 
@@ -42,6 +59,7 @@ export const state: StatePropsType = {
             {id: 1, message: 'Hi, how are you', likesCount: 12},
             {id: 2, message: "It's my first post", likesCount: 11},
         ],
+        newPostText: 'dimooon'
     },
     dialogsPage: {
         messages: [
@@ -53,13 +71,12 @@ export const state: StatePropsType = {
             {id: 6, message: 'Yo'},
         ],
         dialogs: [
-            {id: 1, name: 'Dimych'},
-            {id: 2, name: 'Andrey'},
-            {id: 3, name: 'Sveta'},
-            {id: 4, name: 'Sasha'},
-            {id: 5, name: 'Valera'},
-            {id: 6, name: 'Viktor'},
+            {id: 11, name: 'Dimych'},
+            {id: 21, name: 'Andrey'},
+            {id: 31, name: 'Sveta'},
+            {id: 41, name: 'Sasha'},
+            {id: 51, name: 'Valera'},
+            {id: 61, name: 'Viktor'},
         ],
     }
-
 }
