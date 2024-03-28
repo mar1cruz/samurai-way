@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import './App.css'
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
@@ -12,11 +12,12 @@ import {StatePropsType} from "./redux/state";
 
 type AppPropsType = {
     state: StatePropsType
-    addPost: (postMessage: string) => void
+    addPost: () => void
+    updateNewPostText: (newPostText: string) => void
 }
 
 
-function App({state,addPost}: AppPropsType) {
+function App({state, addPost,updateNewPostText}: AppPropsType) {
     return (
         <BrowserRouter>
             <div className='app-wrapper'>
@@ -30,7 +31,7 @@ function App({state,addPost}: AppPropsType) {
                            )}/>
                     <Route path='/profile'
                            render={() => (
-                               <Profile state={state.profilePage} addPost={addPost}/>
+                               <Profile state={state.profilePage} addPost={addPost} updateNewPostText={updateNewPostText}/>
                            )}/>
                     <Route path='/news' component={News}/>
                     <Route path='/music' component={Music}/>
