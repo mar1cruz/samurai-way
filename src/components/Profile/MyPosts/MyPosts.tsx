@@ -1,7 +1,7 @@
-import React, {ChangeEvent, RefObject, useRef} from 'react';
+import React, {useRef} from 'react';
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {PostType, state} from "../../../redux/state";
+import {PostType} from "../../../redux/state";
 
 type MyPostsPropsType = {
     postsData: PostType[]
