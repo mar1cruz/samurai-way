@@ -8,16 +8,15 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
-import {StatePropsType} from "./redux/state";
+import {ActionType, StatePropsType} from "./redux/state";
 
 type AppPropsType = {
     state: StatePropsType
-    addPost: () => void
-    updateNewPostText: (newPostText: string) => void
+    dispatch: (action: ActionType) => void
 }
 
 
-function App({state, addPost,updateNewPostText}: AppPropsType) {
+function App({state, dispatch}: AppPropsType) {
     return (
         <BrowserRouter>
             <div className='app-wrapper'>
@@ -31,7 +30,7 @@ function App({state, addPost,updateNewPostText}: AppPropsType) {
                            )}/>
                     <Route path='/profile'
                            render={() => (
-                               <Profile state={state.profilePage} addPost={addPost} updateNewPostText={updateNewPostText}/>
+                               <Profile state={state.profilePage} dispatch={dispatch}/>
                            )}/>
                     <Route path='/news' component={News}/>
                     <Route path='/music' component={Music}/>

@@ -1,27 +1,35 @@
 import React, {useRef} from 'react';
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {PostType} from "../../../redux/state";
+import {ActionType, AddPostAC, PostType, UpdateNewPostTextAC} from "../../../redux/state";
 
 type MyPostsPropsType = {
     postsData: PostType[]
     newPostText: string
-    addPost: () => void
-    updateNewPostText: (newPostText: string) => void
+    dispatch: (action: ActionType) => void
 }
 
-export const MyPosts = (props: MyPostsPropsType) => {
+export const MyPosts = ({postsData, newPostText, dispatch}: MyPostsPropsType) => {
     const newPostElement = useRef<HTMLTextAreaElement>(null)
+
     const addPost = () => {
         if (newPostElement.current) {
-            props.addPost()
+            const action: AddPostAC = {type: 'ADD-POST'};
+            dispatch(action)
         }
 
     }
 
     const onPostChange = () => {
-        if (newPostElement.current) props.updateNewPostText(newPostElement.current.value)
+        if (newPostElement.current) {
+            const action: UpdateNewPostTextAC = {
+                type: 'UPDATE-NEW-POST-TEXT',
+                newPostText: newPostElement.current.value
+            };
+            dispatch(action)
+        }
     }
+
 
     return (
         <div className={s.postsBlock}>
@@ -29,7 +37,7 @@ export const MyPosts = (props: MyPostsPropsType) => {
 
             <div>
                 <div>
-                    <textarea ref={newPostElement} cols={30} rows={10} value={props.newPostText}
+                    <textarea ref={newPostElement} cols={30} rows={10} value={newPostText}
                               onChange={onPostChange}/>
                 </div>
                 <div>
@@ -39,9 +47,10 @@ export const MyPosts = (props: MyPostsPropsType) => {
                 </div>
             </div>
             <div className={s.posts}>
-                {props.postsData.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}/>)}
+                {postsData.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}/>)}
             </div>
         </div>
     );
-};
+}
+
 
