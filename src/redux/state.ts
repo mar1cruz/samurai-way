@@ -32,11 +32,20 @@ export type StatePropsType = {
 type StoreType = {
     _state: StatePropsType
     _callSubscriber: () => void
-    addPost: () => void
-    updateNewPostText: (newPostText: string) => void
     subscribe: (observer: any) => void
     getState: () => StatePropsType
+    dispatch: (action: ActionType) => void
+}
 
+export type ActionType = AddPostAC | UpdateNewPostTextAC
+
+export type AddPostAC = {
+    type: 'ADD-POST'
+}
+
+export type UpdateNewPostTextAC = {
+    type: 'UPDATE-NEW-POST-TEXT'
+    newPostText: string
 }
 
 let store: StoreType = {
@@ -50,12 +59,12 @@ let store: StoreType = {
         },
         dialogsPage: {
             messages: [
-                {id: 1, message: 'Hi'},
-                {id: 2, message: 'How are you?'},
-                {id: 3, message: 'Hello'},
-                {id: 4, message: 'Yo'},
-                {id: 5, message: 'Yo'},
-                {id: 6, message: 'Yo'},
+                {id: 12, message: 'Hi'},
+                {id: 22, message: 'How are you?'},
+                {id: 32, message: 'Hello'},
+                {id: 42, message: 'Yo'},
+                {id: 52, message: 'Yo'},
+                {id: 62, message: 'Yo'},
             ],
             dialogs: [
                 {id: 11, name: 'Dimych'},
@@ -69,22 +78,35 @@ let store: StoreType = {
     },
     _callSubscriber() {
     },
+
     getState() {
         return this._state
     },
-    addPost() {
-        const newPost = {id: 5, message: this._state.profilePage.newPostText, likesCount: 0}
-
-        this._state.profilePage.posts.unshift(newPost)
-        this._state.profilePage.newPostText = ''
-        this._callSubscriber()
-    },
-    updateNewPostText(newPostText: string) {
-        this._state.profilePage.newPostText = newPostText
-        this._callSubscriber()
-    },
     subscribe(observer: any) {
         this._callSubscriber = observer
+    },
+
+    dispatch(action) {
+        switch (action.type) {
+            case 'ADD-POST': {
+                const newPost = {id: 5, message: this._state.profilePage.newPostText, likesCount: 0}
+
+                this._state.profilePage.posts.unshift(newPost)
+                this._state.profilePage.newPostText = ''
+                this._callSubscriber()
+
+                break
+            }
+            case 'UPDATE-NEW-POST-TEXT': {
+                this._state.profilePage.newPostText = action.newPostText
+                this._callSubscriber()
+
+                break
+            }
+
+            default:
+                return store._state
+        }
     }
 }
 
