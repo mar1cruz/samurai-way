@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {ActionType, AddPostAC, PostType, UpdateNewPostTextAC} from "../../../redux/state";
+import {ActionType, addPostActionCreator, PostType, updateNewPostTextActionCreator} from "../../../redux/state";
 
 type MyPostsPropsType = {
     postsData: PostType[]
@@ -9,27 +9,21 @@ type MyPostsPropsType = {
     dispatch: (action: ActionType) => void
 }
 
+
 export const MyPosts = ({postsData, newPostText, dispatch}: MyPostsPropsType) => {
     const newPostElement = useRef<HTMLTextAreaElement>(null)
 
     const addPost = () => {
         if (newPostElement.current) {
-            const action: AddPostAC = {type: 'ADD-POST'};
-            dispatch(action)
+            dispatch(addPostActionCreator())
         }
-
     }
 
     const onPostChange = () => {
         if (newPostElement.current) {
-            const action: UpdateNewPostTextAC = {
-                type: 'UPDATE-NEW-POST-TEXT',
-                newPostText: newPostElement.current.value
-            };
-            dispatch(action)
+            dispatch(updateNewPostTextActionCreator(newPostElement.current.value))
         }
     }
-
 
     return (
         <div className={s.postsBlock}>
