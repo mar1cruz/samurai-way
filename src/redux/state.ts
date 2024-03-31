@@ -1,34 +1,34 @@
+import profileReducer, {AddPostAC, UpdateNewPostTextAC} from "./profile-reducer";
+import dialogsReducer, {sendMessageAC, UpdateNewMessageTextAC} from "./dialogs-reducer";
+
 type DialogsType = {
     id: number
     name: string
 }
-
 type MessageType = {
     id: number,
     message: string
 }
-
 export type PostType = {
     id: number
     likesCount: number
     message: string
 }
-
 export type DialogsPageType = {
     messages: MessageType[]
     dialogs: DialogsType[]
+    newMessageText: string
 }
-
 export type ProfilePageType = {
     posts: PostType[],
     newPostText: string
 }
-
 export type StatePropsType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
 }
 
+export type ActionType = AddPostAC | UpdateNewPostTextAC | UpdateNewMessageTextAC | sendMessageAC
 type StoreType = {
     _state: StatePropsType
     _callSubscriber: () => void
@@ -36,12 +36,6 @@ type StoreType = {
     getState: () => StatePropsType
     dispatch: (action: ActionType) => void
 }
-
-type AddPostAC = ReturnType<typeof addPostActionCreator>;
-type UpdateNewPostTextAC = ReturnType<typeof updateNewPostTextActionCreator>;
-
-
-export type ActionType = AddPostAC | UpdateNewPostTextAC
 
 
 let store: StoreType = {
@@ -54,14 +48,6 @@ let store: StoreType = {
             newPostText: 'dimooon'
         },
         dialogsPage: {
-            messages: [
-                {id: 12, message: 'Hi'},
-                {id: 22, message: 'How are you?'},
-                {id: 32, message: 'Hello'},
-                {id: 42, message: 'Yo'},
-                {id: 52, message: 'Yo'},
-                {id: 62, message: 'Yo'},
-            ],
             dialogs: [
                 {id: 11, name: 'Dimych'},
                 {id: 21, name: 'Andrey'},
@@ -70,6 +56,15 @@ let store: StoreType = {
                 {id: 51, name: 'Valera'},
                 {id: 61, name: 'Viktor'},
             ],
+            messages: [
+                {id: 12, message: 'Hi'},
+                {id: 22, message: 'How are you?'},
+                {id: 32, message: 'Hello'},
+                {id: 42, message: 'Yo'},
+                {id: 52, message: 'Yo'},
+                {id: 62, message: 'Yo'},
+            ],
+            newMessageText: ''
         }
     },
     _callSubscriber() {
@@ -83,41 +78,11 @@ let store: StoreType = {
     },
 
     dispatch(action) {
-        switch (action.type) {
-            case 'ADD-POST': {
-                const newPost = {id: 5, message: this._state.profilePage.newPostText, likesCount: 0}
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
 
-                this._state.profilePage.posts.unshift(newPost)
-                this._state.profilePage.newPostText = ''
-                this._callSubscriber()
-
-                break
-            }
-            case 'UPDATE-NEW-POST-TEXT': {
-                this._state.profilePage.newPostText = action.newPostText
-                this._callSubscriber()
-
-                break
-            }
-
-            default:
-                return store._state
-        }
+        this._callSubscriber()
     }
-}
-
-
-export const addPostActionCreator = () => {
-    return {
-        type: 'ADD-POST',
-    } as const;
-};
-
-export const updateNewPostTextActionCreator = (newPostText: string) => {
-    return {
-        type: 'UPDATE-NEW-POST-TEXT',
-        newPostText: newPostText
-    } as const
 }
 
 export default store
